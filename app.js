@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const app = express();
 
 // middleware
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
 // view engine
