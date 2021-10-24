@@ -1,25 +1,9 @@
 // Import the User model
 const User = require("../models/user.models");
 
-// Error handling and extracting from MongoDB validation
-const handleErrors = (err) => {
-  let errorsMsgs = { email: "", password: "" };
-
-  // duplicate error code
-  if (err.code === 11000) {
-    errorsMsgs.email = "That email has already been registered.";
-    return errorsMsgs;
-  }
-
-  // validation errors
-  if (err.message.includes("user validation failed")) {
-    Object.values(err.errors).forEach(({ properties }) => {
-      errorsMsgs[properties.path] = properties.message;
-    })
-  }
-
-  return errorsMsgs;
-};
+// Import Helper functions
+const handleErrors = require("../helpers/handleError.helper");
+const createToken = require("../helpers/jwt.helper");
 
 ////////////
 // Signup //
@@ -33,9 +17,16 @@ const signup_post = async (req, res) => {
   const { email, password } = req.body; 
 
   try {
+    // Create a new user
     const user = await User.create({ email, password });
 
-    res.status(201).json(user);
+    // Create token with jwt
+    const token = await createToken(user._id);
+
+    // Save the token to the cookies
+    res.cookie("jwt", token, { httpOnly: true, maxAge: 1000 * 3 * 24 * 60 * 60});
+    
+    res.status(201).json({ userID: user._id });
   } catch (err) {
     const errors = handleErrors(err);
 

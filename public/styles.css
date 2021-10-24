@@ -108,6 +108,7 @@ input[type=submit] {
   border: none;
   transition: 0.3s ease all;
   cursor: pointer;
+  border-radius: 36px;
 }
 
 input[type=submit]:hover {
