@@ -4,6 +4,9 @@ const { Schema, model } = require("mongoose");
 // Import the validator package
 const { isEmail } = require("validator");
 
+// Import bcrypt
+const bcrypt = require("bcrypt");
+
 const emailReq = {
   type: String,
   required: [true, "Please enter an email."],
@@ -31,7 +34,13 @@ userSchema.post("save", function (doc, next) {
 
 // Tell Mongoose to fire a function before each document is saved to the DB. 
 // Hash the password using bcrypt before saving in the DB.
-userSchema.pre("save", function (next) {
+userSchema.pre("save", async function (next) {
+  // Generates a "salt", which is a random string 
+  // to attach to the password prior to encrypting
+  const salt = await bcrypt.genSalt();
+
+  // The current user instance
+  this.password = await bcrypt.hash(this.password, salt);
 
   next();
 });
