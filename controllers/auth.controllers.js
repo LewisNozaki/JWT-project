@@ -4,6 +4,16 @@ const User = require("../models/user.models");
 // Error handling and extracting from MongoDB validation
 const handleErrors = (err) => {
   console.log(err.message, err.code);
+
+  let errorsMsgs = { email: "", password: "" };
+
+  if (err.message.includes("user validation failed")) {
+    Object.values(err.errors).forEach(({ properties }) => {
+      errorsMsgs[properties.path] = properties.message;
+    })
+  }
+
+  return errorsMsgs;
 }
 
 ////////////
@@ -22,9 +32,9 @@ const signup_post = async (req, res) => {
 
     res.status(201).json(user);
   } catch (err) {
-    handleErrors(err);
+    const errors = handleErrors(err);
 
-    res.status(400).send("Error: ", err);
+    res.status(400).json({ errors });
   }
 };
 
