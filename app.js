@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const path = require("path");
 const rootDir = require("./helpers/path-helper");
+const smoothiesRouter = require("./routes/smoothies.routes");
 
 require("dotenv").config({ path: path.join(rootDir, "secure", ".env") });
 
@@ -29,4 +30,9 @@ mongoose.connect(process.env.dbURI, { useNewUrlParser: true, useUnifiedTopology:
 // routes
 app.get('/', (req, res) => res.render('home'));
 
-app.get('/smoothies', (req, res) => res.render('smoothies'));
+app.use(smoothiesRouter);
+
+// 404 page
+app.use((req, res) => {
+  res.status(404).render('404');
+});
