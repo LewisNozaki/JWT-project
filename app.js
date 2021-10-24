@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const path = require("path");
 const rootDir = require("./helpers/path-helper");
+const cookieParser = require("cookie-parser");
 
 // routes import
 const smoothiesRouter = require("./routes/smoothies.routes");
@@ -19,6 +20,7 @@ const app = express();
 // app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(express.static('public'));
+app.use(cookieParser());
 
 // view engine
 app.set('view engine', 'ejs');
@@ -37,6 +39,25 @@ app.use(smoothiesRouter);
 app.use(authRouter);
 
 app.use(homeRouter);
+
+// Cookies
+app.get("/set-cookies", (req, res) => {
+  // this functin sets cookies within the browser
+  res.cookie("newUser", true);
+  // some extra example properties when setting cookies...
+  // maxAge = how long the cookie lasts. Default is sessions. 
+  // Secure = only saved when using https.
+  // httpOnly = Cannot accessed via browser/javascript
+  res.cookie("isEmployee", false, { maxAge: 1000 * 60 * 60 * 24 });
+  
+  res.send("Successfully set cookies");
+});
+
+app.get("/read-cookies", (req, res) => {
+  const cookies = req.cookies;
+  console.log(cookies);
+  res.json(cookies);
+});
 
 // 404 page
 app.use((req, res) => {
