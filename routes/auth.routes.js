@@ -8,16 +8,16 @@ const { signup_get, signup_post, login_get, login_post } = require("../controlle
 // Signup //
 ////////////
 
-router.get("/signup", (req, res) => signup_get);
+router.get("/signup", signup_get);
 
-router.post("/signup", (req, res) => signup_post);
+router.post("/signup", signup_post);
 
 ///////////
 // Login //
 ///////////
 
-router.get("/login", (req, res) => login_get);
+router.get("/login", login_get);
 
-router.post("/login", (req, res) => login_post);
+router.post("/login", login_post);
 
 module.exports = router;

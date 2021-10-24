@@ -9,7 +9,6 @@ const smoothiesRouter = require("./routes/smoothies.routes");
 const homeRouter = require("./routes/home.routes");
 const authRouter = require("./routes/auth.routes");
 
-
 require("dotenv").config({ path: path.join(rootDir, "secure", ".env") });
 
 const PORT = process.env.PORT || 3000;
@@ -17,7 +16,8 @@ const PORT = process.env.PORT || 3000;
 const app = express();
 
 // middleware
-app.use(express.urlencoded({ extended: false }));
+// app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 app.use(express.static('public'));
 
 // view engine
