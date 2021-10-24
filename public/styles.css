@@ -119,7 +119,6 @@ button {
 }
 
 header {
-  /* border: 1px solid black; */
   margin: 0 auto;
   width: 100%;
   max-width: 1200px;
@@ -169,10 +168,12 @@ header .btn:hover {
 
 .recipes {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  column-gap: 30px;
-  row-gap: 80px;
-  margin: 80PX AUTO;
+  grid-template-columns: repeat(3, 1fr);
+  /* column-gap: 30px;
+  row-gap: 80px; */
+  gap: 80px 30px;
+  margin: 0 auto;
+  width: 100%;
   max-width: 1200px;
 }
 
@@ -191,7 +192,6 @@ header .btn:hover {
 }
 
 footer {
-  /* border: 1px solid black; */
   margin: 0 auto;
   width: 100%;
   max-width: 1200px;

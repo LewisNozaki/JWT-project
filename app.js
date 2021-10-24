@@ -3,7 +3,12 @@ const express = require('express');
 const mongoose = require('mongoose');
 const path = require("path");
 const rootDir = require("./helpers/path-helper");
+
+// routes import
 const smoothiesRouter = require("./routes/smoothies.routes");
+const homeRouter = require("./routes/home.routes");
+const authRouter = require("./routes/auth.routes");
+
 
 require("dotenv").config({ path: path.join(rootDir, "secure", ".env") });
 
@@ -18,7 +23,7 @@ app.use(express.static('public'));
 // view engine
 app.set('view engine', 'ejs');
 
-// database connection
+// database connection & app start
 mongoose.connect(process.env.dbURI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex:true })
   .then(result => {
     console.log("connected to MongoDB Atlas");
@@ -26,11 +31,12 @@ mongoose.connect(process.env.dbURI, { useNewUrlParser: true, useUnifiedTopology:
   })
   .catch(err => console.log(err));
 
-
 // routes
-app.get('/', (req, res) => res.render('home'));
-
 app.use(smoothiesRouter);
+
+app.use(authRouter);
+
+app.use(homeRouter);
 
 // 404 page
 app.use((req, res) => {
