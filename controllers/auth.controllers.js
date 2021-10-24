@@ -3,10 +3,15 @@ const User = require("../models/user.models");
 
 // Error handling and extracting from MongoDB validation
 const handleErrors = (err) => {
-  console.log(err.message, err.code);
-
   let errorsMsgs = { email: "", password: "" };
 
+  // duplicate error code
+  if (err.code === 11000) {
+    errorsMsgs.email = "That email has already been registered.";
+    return errorsMsgs;
+  }
+
+  // validation errors
   if (err.message.includes("user validation failed")) {
     Object.values(err.errors).forEach(({ properties }) => {
       errorsMsgs[properties.path] = properties.message;
@@ -14,7 +19,7 @@ const handleErrors = (err) => {
   }
 
   return errorsMsgs;
-}
+};
 
 ////////////
 // Signup //

@@ -23,6 +23,19 @@ const userSchema = new Schema({
   password: passwordReq
 }, { timestamps: true });
 
+// Tell Mongoose to fire a function after each document is saved to the DB. 
+userSchema.post("save", function (doc, next) {
+
+  next();
+});
+
+// Tell Mongoose to fire a function before each document is saved to the DB. 
+// Hash the password using bcrypt before saving in the DB.
+userSchema.pre("save", function (next) {
+
+  next();
+});
+
 const User = model("user", userSchema);
 
 module.exports = User;
