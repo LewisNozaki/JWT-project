@@ -26,6 +26,7 @@ const signup_post = async (req, res) => {
     // Save the token to the cookies
     res.cookie("jwt", token, { httpOnly: true, maxAge: 1000 * 3 * 24 * 60 * 60});
     
+    // final response to front end
     res.status(200).json({ userID: user._id });
   } catch (err) {
     const errors = handleErrors(err);
@@ -46,12 +47,16 @@ const login_post = async (req, res) => {
   const { email, password } = req.body;
   
   try {
+    // Uses the custom static function login() to find the user in the db and return it
     const user = await User.login(email, password);
 
-    // const token = await createToken(user._id);
+    // Create a token with jwt
+    const token = await createToken(user._id);
 
-    // res.cookie("jwt", token, { httpOnly: true, maxAge: 1000 * 3 * 24 * 60 * 60});
+    // Save the JWT as a cookie
+    res.cookie("jwt", token, { httpOnly: true, maxAge: 1000 * 3 * 24 * 60 * 60});
 
+    // final response to front end
     res.status(200).json({ user: user._id });
     } catch (err) {
     res.status(400).json({});

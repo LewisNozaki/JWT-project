@@ -43,12 +43,12 @@
           "Content-Type": "application/json" 
         }
       })
-
+      
       console.log(email, password);
 
       // save the promise returned by the server in a data constant
       const data = await result.json();
-      
+
       console.log(data);
 
       // check errors and populate error message if needed
