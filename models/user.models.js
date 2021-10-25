@@ -45,6 +45,15 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
+// Static method on user model for login
+userSchema.statics.login = async function(email, password) {
+  const user = await this.findOne({ email });
+
+  if (user) {
+    
+  }
+};
+
 const User = model("user", userSchema);
 
 module.exports = User;

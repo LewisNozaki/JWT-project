@@ -44,7 +44,7 @@ const login_get = (req, res) => {
 
 const login_post = (req, res) => {
   const { email, password } = req.body;
-
+  
   console.log("email: ", email, "password: ", password);
 
   res.send("User login");

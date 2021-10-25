@@ -10,7 +10,7 @@
       <label for="password">Password:</label>
       <input type="password" name="password" required />
       <div class="password error"></div>
-
+      
       <input type="submit" value="Sign Up"> 
 
       <p>
@@ -44,6 +44,7 @@
           }
         })
 
+        // save the promise returned by the server in a data constant
         const data = await result.json();
 
         // check errors and populate error message if needed
