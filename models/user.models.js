@@ -45,13 +45,24 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-// Static method on user model for login
+// Custom atatic method on user model for login
 userSchema.statics.login = async function(email, password) {
+  // finds an instance in the db with the same email;
   const user = await this.findOne({ email });
 
   if (user) {
-    
+    // compare the password passed into the static login function & the password found in the db
+    // This function will either return true or false
+    const auth = await bcrypt.compare(password, user.password);
+
+    if (auth) {
+      return user
+    }
+
+    throw Error("Incorrect password");
   }
+
+  throw Error("Incorrect email");
 };
 
 const User = model("user", userSchema);

@@ -43,9 +43,13 @@
           "Content-Type": "application/json" 
         }
       })
-      
+
+      console.log(email, password);
+
       // save the promise returned by the server in a data constant
       const data = await result.json();
+      
+      console.log(data);
 
       // check errors and populate error message if needed
       if (data.errors) {
@@ -55,7 +59,7 @@
 
       // redirect
       if (data.userID) {
-        location.assign("/");
+        // location.assign("/");
       }
         
     } catch (err) {

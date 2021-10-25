@@ -26,7 +26,7 @@ const signup_post = async (req, res) => {
     // Save the token to the cookies
     res.cookie("jwt", token, { httpOnly: true, maxAge: 1000 * 3 * 24 * 60 * 60});
     
-    res.status(201).json({ userID: user._id });
+    res.status(200).json({ userID: user._id });
   } catch (err) {
     const errors = handleErrors(err);
 
@@ -42,12 +42,20 @@ const login_get = (req, res) => {
   res.render("login");
 };
 
-const login_post = (req, res) => {
+const login_post = async (req, res) => {
   const { email, password } = req.body;
   
-  console.log("email: ", email, "password: ", password);
+  try {
+    const user = await User.login(email, password);
 
-  res.send("User login");
+    // const token = await createToken(user._id);
+
+    // res.cookie("jwt", token, { httpOnly: true, maxAge: 1000 * 3 * 24 * 60 * 60});
+
+    res.status(200).json({ user: user._id });
+    } catch (err) {
+    res.status(400).json({});
+  }
 };
 
 module.exports = {
