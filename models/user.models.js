@@ -38,7 +38,7 @@ userSchema.pre("save", async function (next) {
   // Generates a "salt", which is a random string 
   // to attach to the password prior to encrypting
   const salt = await bcrypt.genSalt();
-
+  
   // The current user instance
   this.password = await bcrypt.hash(this.password, salt);
 

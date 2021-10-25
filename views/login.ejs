@@ -3,13 +3,12 @@
 <div class="main-container">
   <form>
     <h2>Login</h2>
+    <div class="login-error"></div>
     <label for="email">Email:</label>
     <input type="text" name="email" required />
-    <div class="email error"></div>
 
     <label for="password">Password:</label>
     <input type="password" name="password" required />
-    <div class="password error"></div>
 
     <input type="submit" value="Login"> 
 
@@ -22,15 +21,14 @@
 
 <script>
   const userForm = document.querySelector("form");
-  const emailError = document.querySelector(".error.email");
-  const passwordError = document.querySelector(".error.password");
+  const emailPasswordError = document.querySelector(".login-error");
   
   userForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     // reset errors (if any)
-    emailError.textContent = "";
-    passwordError.textContent = "";
+    emailPasswordError.textContent = "";
+    emailPasswordError.style.display = "none";
     
     const email = userForm.email.value; 
     const password = userForm.password.value;
@@ -43,7 +41,7 @@
           "Content-Type": "application/json" 
         }
       })
-      
+
       console.log(email, password);
 
       // save the promise returned by the server in a data constant
@@ -53,8 +51,8 @@
 
       // check errors and populate error message if needed
       if (data.errors) {
-        emailError.textContent = data.errors.email;
-        passwordError.textContent = data.errors.password;
+        emailPasswordError.textContent = data.errors.login;
+        emailPasswordError.style.display = "block";
       }
 
       // redirect

@@ -30,7 +30,6 @@ const signup_post = async (req, res) => {
     res.status(200).json({ userID: user._id });
   } catch (err) {
     const errors = handleErrors(err);
-
     res.status(400).json({ errors });
   }
 };
@@ -45,7 +44,7 @@ const login_get = (req, res) => {
 
 const login_post = async (req, res) => {
   const { email, password } = req.body;
-  
+
   try {
     // Uses the custom static function login() to find the user in the db and return it
     const user = await User.login(email, password);
@@ -55,11 +54,12 @@ const login_post = async (req, res) => {
 
     // Save the JWT as a cookie
     res.cookie("jwt", token, { httpOnly: true, maxAge: 1000 * 3 * 24 * 60 * 60});
-
+    
     // final response to front end
-    res.status(200).json({ user: user._id });
-    } catch (err) {
-    res.status(400).json({});
+    res.status(200).json({ userID: user._id });
+  } catch (err) {
+    const errors = handleErrors(err);
+    res.status(400).json({ errors });
   }
 };
 

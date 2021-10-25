@@ -68,6 +68,7 @@ nav li a {
 .btn {
   border-radius: 36px;
   background: #FEE996;
+  transition: 0.3s ease all;
 }
 
 form h2 {
@@ -111,7 +112,8 @@ input[type=submit] {
   border-radius: 36px;
 }
 
-input[type=submit]:hover {
+input[type=submit]:hover,
+.btn:hover {
   background: #f4ce37;
 }
 
@@ -133,11 +135,21 @@ button {
   letter-spacing: 2px;
 }
 
-.error {
+.error,
+.login-error {
   color: #ff0099;
   margin: 10px 2px;
   font-size: 0.8em;
   font-weight: bold;
+}
+
+.login-error {
+  background: rgb(250, 216, 221);
+  padding: 10px 0;
+  border-left: 3px solid #ff0099;
+  margin: 0;
+  font-size: 0.7em;
+  display: none;
 }
 
 header {
