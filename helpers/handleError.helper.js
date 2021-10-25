@@ -1,7 +1,7 @@
 // Error handling and extracting from MongoDB validation
 const handleErrors = (err) => {
   let errorsMsgs = { email: "", password: "", login: "" };
-
+  
   // Incorrect email or password during login
   if (err.message === "Incorrect email" || err.message === "Incorrect password") {
     errorsMsgs.login = "The email/password combination was not valid. Please try again.";

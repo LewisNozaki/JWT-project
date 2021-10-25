@@ -3,7 +3,7 @@ const User = require("../models/user.models");
 
 // Import Helper functions
 const handleErrors = require("../helpers/handleError.helper");
-const createToken = require("../helpers/jwt.helper");
+const { createToken } = require("../helpers/jwt.helper");
 
 ////////////
 // Signup //
@@ -44,7 +44,7 @@ const login_get = (req, res) => {
 
 const login_post = async (req, res) => {
   const { email, password } = req.body;
-
+  
   try {
     // Uses the custom static function login() to find the user in the db and return it
     const user = await User.login(email, password);
@@ -54,7 +54,7 @@ const login_post = async (req, res) => {
 
     // Save the JWT as a cookie
     res.cookie("jwt", token, { httpOnly: true, maxAge: 1000 * 3 * 24 * 60 * 60});
-    
+
     // final response to front end
     res.status(200).json({ userID: user._id });
   } catch (err) {
@@ -63,9 +63,20 @@ const login_post = async (req, res) => {
   }
 };
 
+////////////
+// Logout //
+////////////
+
+const logout_get = (req, res) => {
+  res.cookie("jwt", "", { maxAge: 1 });
+  res.redirect("/");
+};
+
+
 module.exports = {
   signup_get,
   signup_post,
   login_get,
-  login_post
+  login_post,
+  logout_get
 };

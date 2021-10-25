@@ -41,7 +41,7 @@
           "Content-Type": "application/json" 
         }
       })
-
+      
       console.log(email, password);
 
       // save the promise returned by the server in a data constant
@@ -57,7 +57,7 @@
 
       // redirect
       if (data.userID) {
-        // location.assign("/");
+        location.assign("/");
       }
         
     } catch (err) {

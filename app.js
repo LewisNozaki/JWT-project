@@ -10,6 +10,9 @@ const smoothiesRouter = require("./routes/smoothies.routes");
 const homeRouter = require("./routes/home.routes");
 const authRouter = require("./routes/auth.routes");
 
+// JWT helper
+const { checkUser } = require("./helpers/jwt.helper");
+
 require("dotenv").config({ path: path.join(rootDir, "secure", ".env") });
 
 const PORT = process.env.PORT || 3000;
@@ -34,6 +37,8 @@ mongoose.connect(process.env.dbURI, { useNewUrlParser: true, useUnifiedTopology:
   .catch(err => console.log(err));
 
 // routes
+app.get("*", checkUser);
+
 app.use(smoothiesRouter);
 
 app.use(authRouter);

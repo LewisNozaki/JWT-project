@@ -1,6 +1,11 @@
-const express = require("express");
-const router = express.Router();
+const { Router } = require("express");
 
-router.get('/smoothies', (req, res) => res.render('smoothies'));
+const router = Router();
+
+const { requireAuth } = require("../helpers/jwt.helper");
+
+const smoothies_get = require("../controllers/smoothies.controllers")
+
+router.get('/smoothies', requireAuth, smoothies_get);
 
 module.exports = router

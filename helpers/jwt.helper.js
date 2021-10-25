@@ -11,4 +11,57 @@ const createToken = (id) => {
   return jwt.sign({ id }, process.env.JWTSECRET, { expiresIn: maxAge });
 };
 
-module.exports = createToken;
+const requireAuth = (req, res, next) => {
+  const token = req.cookies.jwt;
+  
+  // check jwt exists in cookies and is verified
+  if (token) {
+    const verifyCallBack = (err, decodedToken) => {
+      if (err) {
+        console.log(err.message);
+        res.redirect("/login");
+      } else {
+        console.log(decodedToken);
+        next();
+      }
+    };
+    
+    jwt.verify(token, process.env.JWTSECRET, verifyCallBack);
+  } else {
+    // Else, redirect to the login page
+    res.redirect("/login");
+  }
+
+  next();
+};
+
+const checkUser = (req, res, next) => {
+  const token = req.cookies.jwt;
+
+  if (token) {
+    // Callback
+    const verifyCallBack = async (err, decodedToken) => {
+      if (err) {
+        console.log(err.message);
+        res.locals.user = null;
+        next();
+      } else {
+        console.log(decodedToken);
+        let user = await User.findById(decodedToken.id);
+        res.locals.user = user;
+        next();
+      }
+    };
+    
+    jwt.verify(token, process.env.JWTSECRET, verifyCallBack);
+  } else {
+    res.locals.user = null;
+    next();
+  }
+};
+
+module.exports = {
+  createToken,
+  requireAuth,
+  checkUser
+};

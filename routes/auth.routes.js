@@ -2,7 +2,7 @@ const { Router } = require("express");
 
 const router = Router();
 
-const { signup_get, signup_post, login_get, login_post } = require("../controllers/auth.controllers");
+const { signup_get, signup_post, login_get, login_post, logout_get } = require("../controllers/auth.controllers");
 
 ////////////
 // Signup //
@@ -19,5 +19,11 @@ router.post("/signup", signup_post);
 router.get("/login", login_get);
 
 router.post("/login", login_post);
+
+////////////
+// Logout //
+////////////
+
+router.get("/logout", logout_get);
 
 module.exports = router;
