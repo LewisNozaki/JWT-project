@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const path = require("path");
 const rootDir = require("./path-helper");
+const User = require("../models/user.models");
 require("dotenv").config({ path: path.join(rootDir, "secure", ".env") });
 
 const maxAge = 3 * 24 * 60 * 60; // 3days in seconds
@@ -47,6 +48,7 @@ const checkUser = (req, res, next) => {
         next();
       } else {
         console.log(decodedToken);
+        // Check the db for this user
         let user = await User.findById(decodedToken.id);
         res.locals.user = user;
         next();
